@@ -1,0 +1,112 @@
+version: "3.9"
+
+# All ports start in 9950 to minimize impacts by running other projects
+
+services:
+  raven:
+    container_name: raven
+    image: ravendb/ravendb
+    ports:
+      - 9950:8080
+      - 9951:38888
+    volumes:
+      - "raven_volume:/opt/RavenDB/Server/RavenData"
+    environment:
+      - RAVEN_Setup_Mode=None
+      - RAVEN_DataDir=RavenData
+      - RAVEN_License_Eula_Accepted=true
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+      - RAVEN_PublicServerUrl=http://host.docker.internal:9910
+      - RAVEN_PublicServerUrl_Tcp=tcp://host.docker.internal:9911
+    networks:
+      - code-pool-network
+    restart: always
+
+  redis:
+    container_name: redis
+    ports:
+      - "9952:9952"
+    command: --port 9952
+    expose:
+      - "9952"
+    environment:
+      - REDIS_PASS="redis"
+    hostname: redis
+    image: redis
+    networks:
+      - code-pool-network
+    restart: always
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=code-pool-network:redis:9912
+    ports:
+      - "9953:8081"
+    networks:
+      - code-pool-network
+    depends_on:
+      - redis
+
+  postgres:
+    container_name: postgres
+    ports:
+      - 9954:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    image: postgis/postgis
+    volumes:
+      - "postgres_data:/var/lib/code-pool/postgresql/data"
+    networks:
+      - code-pool-network
+    restart: always
+
+  pgadmin4:
+    container_name: pgadmin4
+    ports:
+      - 9955:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin4.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+    image: dpage/pgadmin4
+    networks:
+      - code-pool-network
+    restart: always
+    depends_on:
+      - postgres
+
+  rabbitmq:
+    container_name: rabbitmq
+    ports:
+      - 9956:5672
+      - 9957:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    image: rabbitmq:3-management
+    networks:
+      - code-pool-network
+    restart: always
+
+  papercut:
+    container_name: papercut
+    ports:
+      - 9958:25
+      - 9959:37408
+    image: jijiechen/papercut:latest
+    networks:
+      - code-pool-network
+    restart: always
+
+networks:
+  code-pool-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+  raven_volume:
