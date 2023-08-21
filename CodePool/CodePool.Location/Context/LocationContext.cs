@@ -17,4 +17,8 @@ public sealed class LocationContext(DbContextOptions<LocationContext> options) :
         => modelBuilder
             .AddAttributeExtensions()
             .ApplyConfigurationsFromAssembly(typeof(LocationContext).Assembly);
+
+    public DbSet<Country> Country { get; set; }
+    public DbSet<State> State { get; set; }
+    public DbSet<City> City { get; set; }
 }
