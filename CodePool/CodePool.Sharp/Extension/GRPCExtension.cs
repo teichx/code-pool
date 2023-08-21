@@ -1,3 +1,5 @@
+// using Microsoft.Extensions.DependencyInjection;
+using Google.Protobuf.Reflection;
 using ProtoBuf.Grpc.Configuration;
 using ProtoBuf.Grpc.Reflection;
 
@@ -17,6 +19,8 @@ public static class GRPCExtension
         directory.Create();
     }
 
+    // private static string ProjectName => Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty;
+
     /// <summary>
     /// Generates all .proto files in default folder.
     /// </summary>
@@ -26,6 +30,8 @@ public static class GRPCExtension
 
         File.WriteAllText(Path.Join(ProtoFolder, ".gitignore"), "*.*");
         var generator = new SchemaGenerator();
+
+        // var protoNamespace = $"option csharp_namespace = \"{ProjectName}\";\n";
 
         AssemblyWalker.InterfacesWithAttribute<ServiceAttribute>()
             .ToList()
@@ -37,4 +43,23 @@ public static class GRPCExtension
                 File.WriteAllText(Path.Join(ProtoFolder, $"{fileName}.proto"), schema);
             });
     }
+
+    public static FileDescriptorSet GetFileDescriptorSet = () => new();
+
+    // public static IServiceCollection CustomJsonTranscoding<TService>(this IServiceCollection services)
+    // {
+    //     var foo = BindMethodFinder.GetBindMethod(typeof(TService));
+    //     Console.WriteLine(foo is null);
+    //     // services.TryAddEnumerable(ServiceDescriptor.Singleton(
+    //     //     typeof(IServiceMethodProvider<>),
+    //     //     typeof(JsonTranscodingServiceMethodProvider<>)
+    //     // ));
+
+    //     // services.TryAddEnumerable(ServiceDescriptor
+    //     //     .Singleton<IConfigureOptions<GrpcJsonTranscodingOptions>, GrpcJsonTranscodingOptionsSetup>());
+
+    //     // services.TryAddSingleton<DescriptorRegistry>();
+
+    //     return services;
+    // }
 }
