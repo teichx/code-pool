@@ -1,4 +1,6 @@
-namespace CodePool.Location.ValueObject.Pagination;
+using System.Globalization;
+
+namespace CodePool.Sharp.ValueObject.Pagination;
 
 public readonly struct Page
 {
@@ -7,7 +9,7 @@ public readonly struct Page
         => _pageNumber = Math.Max(pageNumber, 1);
 
     public override string ToString()
-        => _pageNumber.ToString();
+        => _pageNumber.ToString(CultureInfo.InvariantCulture);
 
     public override int GetHashCode() => _pageNumber.GetHashCode();
 

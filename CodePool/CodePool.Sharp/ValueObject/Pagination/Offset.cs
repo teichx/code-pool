@@ -1,4 +1,6 @@
-namespace CodePool.Location.ValueObject.Pagination;
+using System.Globalization;
+
+namespace CodePool.Sharp.ValueObject.Pagination;
 
 public readonly struct Offset
 {
@@ -7,7 +9,7 @@ public readonly struct Offset
         => _offset = tuple.limit * (tuple.page - 1);
 
     public override string ToString()
-        => _offset.ToString();
+        => _offset.ToString(CultureInfo.InvariantCulture);
 
     public override int GetHashCode() => _offset.GetHashCode();
 

@@ -1,4 +1,4 @@
-namespace CodePool.Location.ValueObject.Pagination;
+namespace CodePool.Sharp.ValueObject.Pagination;
 
 public readonly struct Pagination
 {

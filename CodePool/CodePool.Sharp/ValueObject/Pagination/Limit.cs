@@ -1,4 +1,6 @@
-namespace CodePool.Location.ValueObject.Pagination;
+using System.Globalization;
+
+namespace CodePool.Sharp.ValueObject.Pagination;
 
 public readonly struct Limit
 {
@@ -9,7 +11,7 @@ public readonly struct Limit
         => _limit = Math.Max(tuple.limit, tuple.maxLimit);
 
     public override string ToString()
-        => _limit.ToString();
+        => _limit.ToString(CultureInfo.InvariantCulture);
 
     public override int GetHashCode() => _limit.GetHashCode();
 
