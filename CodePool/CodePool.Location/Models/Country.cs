@@ -23,5 +23,5 @@ public class Country : BaseModel
     [Required, StringLength(2, MinimumLength = 2)]
     public required string Acronym { get; set; }
 
-    public required IEnumerable<State> States { get; set; }
+    public virtual IEnumerable<State> States { get; set; } = null!;
 }

@@ -17,5 +17,5 @@ public class City : BaseModel
     public required string Slug { get; set; }
     public required int StateId { get; set; }
 
-    public required State State { get; set; }
+    public virtual State State { get; set; } = null!;
 }

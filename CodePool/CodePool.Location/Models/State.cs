@@ -19,6 +19,6 @@ public class State : BaseModel
     [Required]
     public required int CountryId { get; set; }
 
-    public required Country Country { get; set; }
-    public required IEnumerable<City> Cities { get; set; }
+    public virtual Country Country { get; set; } = null!;
+    public virtual ICollection<City> Cities { get; set; } = null!;
 }
