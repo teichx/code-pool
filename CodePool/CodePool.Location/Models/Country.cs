@@ -15,6 +15,9 @@ public class Country : BaseModel
     public required string Name { get; set; }
 
     [Required, StringLength(50)]
+    public required string NativeName { get; set; }
+
+    [Required, StringLength(50)]
     public required string Slug { get; set; }
 
     [Required, StringLength(2, MinimumLength = 2)]
