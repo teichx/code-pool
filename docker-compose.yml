@@ -43,7 +43,7 @@ services:
     image: rediscommander/redis-commander:latest
     restart: always
     environment:
-      - REDIS_HOSTS=code-pool-network:redis:9912
+      - REDIS_HOSTS=code-pool-network:redis:9952
     ports:
       - "9953:8081"
     networks:
