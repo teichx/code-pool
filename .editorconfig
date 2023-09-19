@@ -144,6 +144,8 @@ dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 
 dotnet_diagnostic.CA1000.severity = none
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.IDE0046.severity = none
 
 [**/Migrations/*.cs]
 dotnet_analyzer_diagnostic.category-Style.severity = none
